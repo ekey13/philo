@@ -40,20 +40,6 @@ static void	handel_mutex(int status, t_opcode opcode)
 		handel_error(RED_TEXT"Mutex is locked" RSC);
 }
 
-// void	safe_mutex(t_mtx *mutex, t_opcode opcode)
-// {
-// 	if (LOCK == opcode)
-// 		handel_mutex(pthread_mutex_lock(mutex), opcode);
-// 	else if (UNLOCK == opcode)
-// 		handel_mutex(pthread_mutex_unlock(mutex), opcode);
-// 	else if (INIT == opcode)
-// 		handel_mutex(pthread_mutex_init(mutex, NULL), opcode);
-// 	else if (DESTROY == opcode)
-// 		handel_mutex(pthread_mutex_destroy(mutex), opcode);
-// 	else
-// 		handel_error(RED_TEXT "Wrong opcode!" RSC);
-// }
-
 int safe_mutex(t_mtx *mutex, t_opcode opcode)
 {
     int status;
@@ -72,8 +58,6 @@ int safe_mutex(t_mtx *mutex, t_opcode opcode)
     }
     return status;
 }
-
-
 
 static void	handel_thread(int status, t_opcode opcode)
 {
