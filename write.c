@@ -40,7 +40,7 @@ void	write_status_debug(t_philo_status status, t_philo *philo, long elapsed)
 		printf(RED_TEXT "\t\t%ld %d died\n" RSC, elapsed, philo->id);
 }
 
-void	write_status(t_philo_status status, t_philo *philo, int debug)
+void	write_status(t_philo_status status, t_philo *philo, bool debug)
 {
 	long	elapsed;
 

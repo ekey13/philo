@@ -38,11 +38,12 @@ void	eat(t_philo *philo)
 	safe_mutex(&philo->second_fork->fork, LOCK);
 	write_status(SECOND_FORK, philo, DEBUG_MODE);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time(MILISECOND));
+	philo->meals_coun++;
 	write_status(EATING, philo, DEBUG_MODE);
 	precise_usleep(philo->table->time_to_eat, philo->table);
 	if (philo->table->nbr_limit_meals > 0
 		&& philo->meals_coun == philo->table->nbr_limit_meals)
-		set_int(&philo->philo_mutex, &philo->full, 0);
+		set_bool(&philo->philo_mutex, &philo->full, true);
 	safe_mutex(&philo->first_fork->fork, UNLOCK);
 	safe_mutex(&philo->second_fork->fork, UNLOCK);
 }
@@ -56,13 +57,14 @@ void	*simulation(void *data)
 	wait_threads(philo->table);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time(MILISECOND));
 	increase_long(&philo->table->table_mutex, &philo->table->running_threads);
+	
 	while (!simul_finish(philo->table))
 	{
 		if (philo->full)
 			break ;
 		eat(philo);
 		write_status(SLEEPING, philo, DEBUG_MODE);
-		precise_usleep(philo->table->time_to_die, philo->table);
+		precise_usleep(philo->table->time_to_sleep, philo->table);
 		think(philo);
 	}
 	return (NULL);
@@ -72,23 +74,23 @@ void	start_dinner(t_table *table)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (table->nbr_limit_meals == 0)
 		return ;
 	else if (1 == table->philo_number)
 		safe_thread(&table->philos[0].thread_id, lone_philo, &table->philos[0], CREATE);
 	else
 	{
-		while (i++ < table->philo_number)
+		while (++i < table->philo_number)
 			safe_thread(&table->philos[i].thread_id,
 				simulation, &table->philos[i], CREATE);
 	}
 	safe_thread(&table->monitor, monitor_dinner, table, CREATE);
 	table->start_similation = get_time(MILISECOND);
-	set_int(&table->table_mutex, &table->threads_ready, 0);
-	i = 0;
-	while (i++ < table->philo_number)
+	set_bool(&table->table_mutex, &table->threads_ready, true);
+	i = -1;
+	while (++i < table->philo_number)
 		safe_thread(&table->philos[i].thread_id, NULL, NULL, JOIN);
-	set_int(&table->table_mutex, &table->end_similation, 0);
+	set_bool(&table->table_mutex, &table->end_similation, true);
 	safe_thread(&table->monitor, NULL, NULL, JOIN);
 }

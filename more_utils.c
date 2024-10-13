@@ -30,8 +30,8 @@ void	clean(t_table *table)
 		philo = table->philos + i;
 		safe_mutex(&philo->philo_mutex, DESTROY);
 	}
-	safe_mutex(&philo->write_mutex , DESTROY);
-	safe_mutex(&philo->table_mutex, DESTROY);
+	//safe_mutex(&philo->write_mutex , DESTROY);
+	//safe_mutex(&philo->table_mutex, DESTROY);
 	free(table->forks);
 	free(table->philos);
 }

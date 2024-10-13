@@ -18,8 +18,8 @@ static void	assign_forks(t_philo *philo, t_fork *forks, int position)
 	int	philo_nbr;
 
 	philo_nbr = philo->table->philo_number;
-	philo->first_fork = &forks[position];
-	philo->second_fork = &forks[(position + 1) % philo_nbr];
+	philo->second_fork = &forks[position];
+	philo->first_fork = &forks[(position + 1) % philo_nbr];
 	if (philo->id % 2 == 0)
 	{
 		philo->first_fork = &forks[position];
@@ -52,12 +52,12 @@ void	data_init(t_table *table)
 
 	i = -1;
 	table->end_similation = false;
-	table->threads_ready = 1;
+	table->threads_ready = false;
 	table->running_threads = 0;
 	table->philos = safe_malloc(sizeof(t_philo) * table->philo_number);
 	if (!table->philos)
 		handel_error("Memory allocation failed for philosophers.");
-	// safe_mutex(&table->table_mutex, INIT);
+	safe_mutex(&table->table_mutex, INIT);
 	// safe_mutex(&table->write_mutex, INIT);
 	table->forks = safe_malloc(sizeof(t_fork) * table->philo_number);
 	if (!table->forks)

@@ -21,7 +21,7 @@ void	handel_error(char *error)
 
 void	wait_threads(t_table *table)
 {
-	while (!get_int(&table->table_mutex, &table->threads_ready))
+	while (!get_bool(&table->table_mutex, &table->threads_ready))
 		;
 }
 
@@ -65,14 +65,14 @@ void	precise_usleep(long usec, t_table *table)
 	}
 }
 
-int	all_threads(t_mtx *mutex, long *threads, long philo_nbr)
+bool	all_threads(t_mtx *mutex, long *threads, long philo_nbr)
 {
-	int	ret;
+	bool	ret;
 
-	ret = 1;
+	ret = false;
 	safe_mutex(mutex, LOCK);
-	if (threads == philo_nbr)
-		ret = 0;
+	if (*threads == philo_nbr)
+		ret = true;
 	safe_mutex(mutex, UNLOCK);
 	return (ret);
 }

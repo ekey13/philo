@@ -12,16 +12,16 @@
 
 #include "philo.h"
 
-void	set_int(t_mtx *mutex, int *dest, int value)
+void	set_bool(t_mtx *mutex, bool *dest, bool value)
 {
 	safe_mutex(mutex, LOCK);
 	*dest = value;
 	safe_mutex(mutex, UNLOCK);
 }
 
-int	get_int(t_mtx *mutex, int *value)
+bool	get_bool(t_mtx *mutex, bool *value)
 {
-	int	ret;
+	bool	ret;
 
 	safe_mutex(mutex, LOCK);
 	ret = *value;
@@ -46,7 +46,7 @@ long	get_long(t_mtx *mutex, long *value)
 	return (ret);
 }
 
-int	simul_finish(t_table *table)
+bool	simul_finish(t_table *table)
 {
-	return (get_int(&table->table_mutex, &table->end_similation));
+	return (get_bool(&table->table_mutex, &table->end_similation));
 }

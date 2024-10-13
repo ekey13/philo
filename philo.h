@@ -76,8 +76,6 @@ typedef struct s_philo
 	t_fork		*second_fork;
 	pthread_t	thread_id;
 	t_mtx		philo_mutex;
-	t_mtx		table_mutex;
-	t_mtx		write_mutex;
 	t_table		*table;
 }	t_philo;
 
@@ -108,21 +106,21 @@ void	safe_thread(pthread_t *thread, void *(*foo)(void *),
 void	safe_mutex(t_mtx *mutex, t_opcode opcode);
 void	data_init(t_table *table);
 
-int		simul_finish(t_table *table);
+bool		simul_finish(t_table *table);
 long	get_long(t_mtx *mutex, long *value);
 void	set_long(t_mtx *mutex, long *dest, long value);
-int		get_int(t_mtx *mutex, int *value);
-void	set_int(t_mtx *mutex, int *dest, int value);
+bool	get_bool(t_mtx *mutex, bool *value);
+void	set_bool(t_mtx *mutex, bool *dest, bool value);
 
 void	wait_threads(t_table *table);
 
 long	get_time(t_time_code time_code);
 void	precise_usleep(long usec, t_table *table);
-void	write_status(t_philo_status status, t_philo *philo, int debug);
+void	write_status(t_philo_status status, t_philo *philo, bool debug);
 
 void	start_dinner(t_table *table);
 
-int		all_threads(t_mtx *mutex, long *threads, long philo_nbr);
+bool		all_threads(t_mtx *mutex, long *threads, long philo_nbr);
 void	increase_long(t_mtx *mutex, long *value);
 void	*monitor_dinner(void *data);
 void	clean(t_table *table);
