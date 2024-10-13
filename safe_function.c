@@ -27,9 +27,9 @@ static void	handel_mutex(int status, t_opcode opcode)
 	if (status == 0)
 		return ;
 	if (EINVAL == status && (LOCK == opcode || UNLOCK == opcode))
-		handel_error(RED_TEXT "The value is invalid" RSC);
+		handel_error(RED_TEXT "The einval value is invalid" RSC);
 	else if (EINVAL == status && INIT == opcode)
-		handel_error(RED_TEXT "The value is invalid" RSC);
+		handel_error(RED_TEXT "The value  invalid" RSC);
 	else if (EDEADLK == status)
 		handel_error(RED_TEXT"A deadlock would occur"RSC);
 	else if (EPERM == status)
@@ -40,24 +40,46 @@ static void	handel_mutex(int status, t_opcode opcode)
 		handel_error(RED_TEXT"Mutex is locked" RSC);
 }
 
-void	safe_mutex(t_mtx *mutex, t_opcode opcode)
+// void	safe_mutex(t_mtx *mutex, t_opcode opcode)
+// {
+// 	if (LOCK == opcode)
+// 		handel_mutex(pthread_mutex_lock(mutex), opcode);
+// 	else if (UNLOCK == opcode)
+// 		handel_mutex(pthread_mutex_unlock(mutex), opcode);
+// 	else if (INIT == opcode)
+// 		handel_mutex(pthread_mutex_init(mutex, NULL), opcode);
+// 	else if (DESTROY == opcode)
+// 		handel_mutex(pthread_mutex_destroy(mutex), opcode);
+// 	else
+// 		handel_error(RED_TEXT "Wrong opcode!" RSC);
+// }
+
+int safe_mutex(t_mtx *mutex, t_opcode opcode)
 {
-	if (LOCK == opcode)
-		handel_mutex(pthread_mutex_lock(mutex), opcode);
-	else if (UNLOCK == opcode)
-		handel_mutex(pthread_mutex_unlock(mutex), opcode);
-	else if (INIT == opcode)
-		handel_mutex(pthread_mutex_init(mutex, NULL), opcode);
-	else if (DESTROY == opcode)
-		handel_mutex(pthread_mutex_destroy(mutex), opcode);
-	else
-		handel_error(RED_TEXT "Wrong opcode!" RSC);
+    int status;
+	
+	status = 0;
+    if (opcode == INIT)
+        status = pthread_mutex_init(mutex, NULL);
+    else if (opcode == LOCK)
+        status = pthread_mutex_lock(mutex);
+    else if (opcode == UNLOCK)
+        status = pthread_mutex_unlock(mutex);
+    else if (opcode == DESTROY)
+        status = pthread_mutex_destroy(mutex);
+    if (status != 0) {
+        handel_error("Mutex operation failed");
+    }
+    return status;
 }
+
+
 
 static void	handel_thread(int status, t_opcode opcode)
 {
 	if (status == 0)
 		return ;
+
 	if (EINVAL == status && (LOCK == opcode || UNLOCK == opcode))
 		handel_error(RED_TEXT "The value is invalid" RSC);
 	else if (EINVAL == status && INIT == opcode)

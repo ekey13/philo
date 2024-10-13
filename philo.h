@@ -25,7 +25,7 @@
 #define GREEN_TEXT  "\033[32m"
 #define YELLOW_TEXT "\033[33m"
 
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 typedef enum e_status
 {
@@ -103,7 +103,7 @@ void	parse_input(t_table *table, char **av);
 void	*safe_malloc(size_t bytes);
 void	safe_thread(pthread_t *thread, void *(*foo)(void *),
 					void *data, t_opcode opcode);
-void	safe_mutex(t_mtx *mutex, t_opcode opcode);
+int	safe_mutex(t_mtx *mutex, t_opcode opcode);
 void	data_init(t_table *table);
 
 bool		simul_finish(t_table *table);
