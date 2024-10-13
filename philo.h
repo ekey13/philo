@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekechedz <ekechedz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekechedz <ekechedz@student.42.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 17:23:18 by ekechedz          #+#    #+#             */
-/*   Updated: 2024/10/03 19:18:04 by ekechedz         ###   ########.fr       */
+/*   Updated: 2024/10/13 10:53:49 by ekechedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ void	precise_usleep(long usec, t_table *table);
 void	write_status(t_philo_status status, t_philo *philo, bool debug);
 
 void	start_dinner(t_table *table);
+void	think(t_philo *philo, bool pre_simul);
+void	syn_philo(t_philo *philo);
 
 bool		all_threads(t_mtx *mutex, long *threads, long philo_nbr);
 void	increase_long(t_mtx *mutex, long *value);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekechedz <ekechedz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekechedz <ekechedz@student.42.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:06:37 by ekechedz          #+#    #+#             */
-/*   Updated: 2024/10/01 16:13:55 by ekechedz         ###   ########.fr       */
+/*   Updated: 2024/10/13 10:53:29 by ekechedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,18 @@ void	clean(t_table *table)
 	safe_mutex(&table->table_mutex, DESTROY);
 	free(table->forks);
 	free(table->philos);
+}
+
+void syn_philo(t_philo *philo)
+{
+	if (philo->table->philo_number % 2 == 0)
+	{
+		if (philo->id % 2 == 0)
+			precise_usleep(3e4, philo->table);
+	}
+	else
+	{
+		if (philo-> id % 2)
+			think(philo, true);
+	}
 }

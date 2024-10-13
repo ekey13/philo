@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekechedz <ekechedz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekechedz <ekechedz@student.42.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:24:08 by ekechedz          #+#    #+#             */
-/*   Updated: 2024/10/03 19:39:25 by ekechedz         ###   ########.fr       */
+/*   Updated: 2024/10/13 10:55:00 by ekechedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,22 @@ void	*lone_philo(void *av)
 	return (NULL);
 }
 
-void	think(t_philo *philo)
+void	think(t_philo *philo, bool pre_simul)
 {
-	write_status(THINKING, philo, DEBUG_MODE);
+	long 	t_eat;
+	long	t_sleep;
+	long 	t_think;
+	
+	if (!pre_simul)
+		write_status(THINKING, philo, DEBUG_MODE);
+	if (philo->table->philo_number % 2 == 0)
+		return ;
+	t_eat = philo->table->time_to_eat;
+	t_sleep = philo->table->time_to_sleep;
+	t_think = t_eat * 2 - t_sleep;
+	if (t_think < 0)
+		t_think = 0;
+	precise_usleep(t_think * 0.42, philo->table);
 }
 
 void	eat(t_philo *philo)
@@ -57,7 +70,7 @@ void	*simulation(void *data)
 	wait_threads(philo->table);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time(MILISECOND));
 	increase_long(&philo->table->table_mutex, &philo->table->running_threads);
-	
+	syn_philo(philo);
 	while (!simul_finish(philo->table))
 	{
 		if (philo->full)
@@ -65,7 +78,7 @@ void	*simulation(void *data)
 		eat(philo);
 		write_status(SLEEPING, philo, DEBUG_MODE);
 		precise_usleep(philo->table->time_to_sleep, philo->table);
-		think(philo);
+		think(philo, false);
 	}
 	return (NULL);
 }
