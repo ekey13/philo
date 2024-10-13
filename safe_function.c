@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_function.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekechedz <ekechedz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekechedz <ekechedz@student.42.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:34:38 by ekechedz          #+#    #+#             */
-/*   Updated: 2024/10/01 13:43:02 by ekechedz         ###   ########.fr       */
+/*   Updated: 2024/10/13 11:25:27 by ekechedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ void	*safe_malloc(size_t bytes)
 	return (ret);
 }
 
-static void	handel_mutex(int status, t_opcode opcode)
-{
-	if (status == 0)
-		return ;
-	if (EINVAL == status && (LOCK == opcode || UNLOCK == opcode))
-		handel_error(RED_TEXT "The einval value is invalid" RSC);
-	else if (EINVAL == status && INIT == opcode)
-		handel_error(RED_TEXT "The value  invalid" RSC);
-	else if (EDEADLK == status)
-		handel_error(RED_TEXT"A deadlock would occur"RSC);
-	else if (EPERM == status)
-		handel_error(RED_TEXT"The tread does not hold a lock on mutex"RSC);
-	else if (ENOMEM == status)
-		handel_error(RED_TEXT "Not enoyg memory to create another mutex");
-	else if (EBUSY == status)
-		handel_error(RED_TEXT"Mutex is locked" RSC);
-}
+// static void	handel_mutex(int status, t_opcode opcode)
+// {
+// 	if (status == 0)
+// 		return ;
+// 	if (EINVAL == status && (LOCK == opcode || UNLOCK == opcode))
+// 		handel_error(RED_TEXT "The einval value is invalid" RSC);
+// 	else if (EINVAL == status && INIT == opcode)
+// 		handel_error(RED_TEXT "The value  invalid" RSC);
+// 	else if (EDEADLK == status)
+// 		handel_error(RED_TEXT"A deadlock would occur"RSC);
+// 	else if (EPERM == status)
+// 		handel_error(RED_TEXT"The tread does not hold a lock on mutex"RSC);
+// 	else if (ENOMEM == status)
+// 		handel_error(RED_TEXT "Not enoyg memory to create another mutex");
+// 	else if (EBUSY == status)
+// 		handel_error(RED_TEXT"Mutex is locked" RSC);
+// }
 
 int safe_mutex(t_mtx *mutex, t_opcode opcode)
 {
