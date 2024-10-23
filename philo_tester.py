@@ -55,12 +55,21 @@ def print_result(success, message):
     color = Colors.OKGREEN if success else Colors.FAIL
     print_colored(f"{emoji} {message}", color)
 
+<<<<<<< HEAD
 # def check_norm():
 #     result = subprocess.run(["norminette"], capture_output=True, text=True)
 #     success = "Error" not in result.stdout
 #     message = "Norm check passed" if success else "Code does not comply with the norm"
 #     print_result(success, message)
 #     return success
+=======
+def check_norm():
+    result = subprocess.run(["norminette"], capture_output=True, text=True)
+    success = "Error" not in result.stdout
+    message = "Norm check passed" if success else "Code does not comply with the norm"
+    print_result(success, message)
+    return success
+>>>>>>> 427dfbb253e39c08f6124330c365804e82cfa5e3
 
 def compile_project():
     result = subprocess.run(["make"], capture_output=True, text=True)
@@ -138,10 +147,17 @@ def main():
     print_colored("🧠 Tester for Philosopher Project 🍽", Colors.HEADER)
     time.sleep(2)
 
+<<<<<<< HEAD
     # _success = check_norm()norm
     compile_success = compile_project()
 
     if not (compile_success):
+=======
+    norm_success = check_norm()
+    compile_success = compile_project()
+
+    if not (norm_success and compile_success):
+>>>>>>> 427dfbb253e39c08f6124330c365804e82cfa5e3
         print_colored("\n⚠️ Warning: Norm check failed or compilation failed.", Colors.WARNING)
         print_colored("Tests will still be executed, but results may be affected.", Colors.WARNING)
 
