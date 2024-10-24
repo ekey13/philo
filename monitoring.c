@@ -6,7 +6,7 @@
 /*   By: ekechedz <ekechedz@student.42.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:59:26 by ekechedz          #+#    #+#             */
-/*   Updated: 2024/10/19 17:56:44 by ekechedz         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:07:43 by ekechedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static bool	philo_died(t_philo *philo)
 	return (false);
 }
 
-
 void	*monitor_dinner(void *data)
 {
 	t_table	*table;
@@ -45,7 +44,7 @@ void	*monitor_dinner(void *data)
 			if (philo_died(table->philos + i))
 			{
 				set_bool(&table->table_mutex, &table->end_similation, true);
-				write_status(DIED, table->philos + i, DEBUG_MODE);
+				write_status(DIED, table->philos + i);
 			}
 		}
 	}

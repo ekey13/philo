@@ -6,7 +6,7 @@
 /*   By: ekechedz <ekechedz@student.42.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 17:23:18 by ekechedz          #+#    #+#             */
-/*   Updated: 2024/10/13 11:56:39 by ekechedz         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:06:57 by ekechedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 #define BLUE_TEXT   "\033[34m"
 #define GREEN_TEXT  "\033[32m"
 #define YELLOW_TEXT "\033[33m"
-
-#define DEBUG_MODE 0
 
 typedef enum e_status
 {
@@ -64,7 +62,6 @@ typedef struct s_fork
 	int		fork_id;
 }	t_fork;
 
-
 typedef struct s_philo
 {
 	int			id;
@@ -81,20 +78,20 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	long	philo_number;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	nbr_limit_meals;
-	long	start_similation;
-	long	running_threads;
-	bool	end_similation;
-	bool	threads_ready;
+	long		philo_number;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		nbr_limit_meals;
+	long		start_similation;
+	long		running_threads;
+	bool		end_similation;
+	bool		threads_ready;
 	pthread_t	monitor;
-	t_mtx	table_mutex;
-	t_mtx	write_mutex;
-	t_fork	*forks;
-	t_philo	*philos;
+	t_mtx		table_mutex;
+	t_mtx		write_mutex;
+	t_fork		*forks;
+	t_philo		*philos;
 
 }	t_table;
 
@@ -102,11 +99,11 @@ void	handel_error(char *error);
 void	parse_input(t_table *table, char **av);
 void	*safe_malloc(size_t bytes);
 void	safe_thread(pthread_t *thread, void *(*foo)(void *),
-					void *data, t_opcode opcode);
-int	safe_mutex(t_mtx *mutex, t_opcode opcode);
+			void *data, t_opcode opcode);
+int		safe_mutex(t_mtx *mutex, t_opcode opcode);
 void	data_init(t_table *table);
 
-bool		simul_finish(t_table *table);
+bool	simul_finish(t_table *table);
 long	get_long(t_mtx *mutex, long *value);
 void	set_long(t_mtx *mutex, long *dest, long value);
 bool	get_bool(t_mtx *mutex, bool *value);
@@ -116,13 +113,13 @@ void	wait_threads(t_table *table);
 
 long	get_time(t_time_code time_code);
 void	precise_usleep(long usec, t_table *table);
-void	write_status(t_philo_status status, t_philo *philo, bool debug);
+void	write_status(t_philo_status status, t_philo *philo);
 
 void	start_dinner(t_table *table);
 void	think(t_philo *philo, bool pre_simul);
 void	syn_philo(t_philo *philo);
 
-bool		all_threads(t_mtx *mutex, long *threads, long philo_nbr);
+bool	all_threads(t_mtx *mutex, long *threads, long philo_nbr);
 void	increase_long(t_mtx *mutex, long *value);
 void	*monitor_dinner(void *data);
 void	clean(t_table *table);

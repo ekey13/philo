@@ -6,7 +6,7 @@
 /*   By: ekechedz <ekechedz@student.42.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 18:43:14 by ekechedz          #+#    #+#             */
-/*   Updated: 2024/10/19 17:37:27 by ekechedz         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:16:28 by ekechedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static long	ft_atoi(const char *str)
 	return (num);
 }
 
-
 void	parse_input(t_table *table, char **av)
 {
 	table->philo_number = ft_atoi(av[1]);
@@ -65,7 +64,7 @@ void	parse_input(t_table *table, char **av)
 	table->time_to_eat = ft_atoi(av[3]) * 1000;
 	table->time_to_sleep = ft_atoi(av[4]) * 1000;
 	if (table->philo_number <= 0)
-        handel_error("Error: Number of philosophers must be greater than 0.");
+		handel_error("Error: Number of philosophers must be greater than 0.");
 	if (table->time_to_sleep < 6e4
 		|| table->time_to_eat < 6e4
 		|| table->time_to_die < 6e4)
@@ -74,7 +73,7 @@ void	parse_input(t_table *table, char **av)
 	{
 		table->nbr_limit_meals = ft_atoi(av[5]);
 		if (table->nbr_limit_meals <= 0)
-            handel_error("Error: Number of meals must be greater than 0.");
+			handel_error("Error: Number of meals must be greater than 0.");
 	}
 	else
 		table->nbr_limit_meals = -1;
